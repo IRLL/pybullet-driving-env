@@ -2,9 +2,9 @@ import gym
 import numpy as np
 import math
 import pybullet as p
-from resources.car import Car
-from resources.plane import Plane
-from resources.goal import Goal
+from pybullet_driving_env.resources.car import Car
+from pybullet_driving_env.resources.plane import Plane
+from pybullet_driving_env.resources.goal import Goal
 from copy import deepcopy
 import time
 #import matplotlib.pyplot as plt
@@ -32,9 +32,8 @@ class SimpleDrivingEnv(gym.Env):
             
             'segmentation': gym.spaces.box.Box(
                     low = np.zeros((75,75,3)),
-                    high = np.zeros((75,75,3)),
+                    high = np.ones((75,75,3)),
             )
-            
         }
 
         self.observation_space = gym.spaces.dict.Dict(obs_space)

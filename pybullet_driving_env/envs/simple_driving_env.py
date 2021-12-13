@@ -38,8 +38,12 @@ class SimpleDrivingEnv(gym.Env):
 
         self.observation_space = gym.spaces.dict.Dict(obs_space)
         self.np_random, _ = gym.utils.seeding.np_random()
-
+        
+        # use this if not rendering
         self.client = p.connect(p.DIRECT)
+
+        #use this if rendering
+        # self.client = p.connect(p.GUI)
 
         # Reduce length of episodes for RL algorithms
         p.setTimeStep(1/30, self.client)

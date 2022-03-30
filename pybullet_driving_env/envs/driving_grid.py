@@ -41,7 +41,7 @@ class DrivingGrid(SimpleDrivingEnv):
         self.np_random, _ = gym.utils.seeding.np_random()
         
         # use this if not rendering
-        self.client = p.connect(p.GUI)
+        self.client = p.connect(p.DIRECT)
 
         #use this if rendering
         # self.client = p.connect(p.GUI)
@@ -103,7 +103,7 @@ class DrivingGrid(SimpleDrivingEnv):
                     visBoxId = p.createVisualShape(p.GEOM_BOX,
                                 halfExtents=[g2m/2, g2m/2, box_half_height], rgbaColor=[0.62, 0.26, 0.67, 1])
                     colBoxId = p.createCollisionShape(p.GEOM_BOX,
-                                halfExtents=[g2m/2, g2m/2, box_half_height])
+                                halfExtents=[g2m/2 -0.05, g2m/2 -0.05, box_half_height])
                     p.createMultiBody(baseMass=self.obstacle_mass,
                         baseCollisionShapeIndex=colBoxId,
                         baseVisualShapeIndex=visBoxId,

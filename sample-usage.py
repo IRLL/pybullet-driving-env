@@ -1,8 +1,11 @@
 import pybullet_driving_env
+from pybullet_driving_env.envs.driving_grid import DrivingGrid
 import numpy as np
 import gym
 
-env = gym.make('SimpleDriving-v0')
+# env = gym.make('SimpleDriving-v0')
+env = gym.make('DrivingGrid-v0')
+# env = DrivingGrid()
 print(env.observation_space)
 print(env.action_space)
 

@@ -112,6 +112,23 @@ class DrivingGrid(SimpleDrivingEnv):
     def grid2meter(self):
         return (2*self.max_half_length)/(self.grid.shape[0]), (2*self.max_half_length)/(self.grid.shape[1])
 
+    def sample_spawn_pos(self):
+        while True:
+            i,j = np.random.randint((0,0), self.grid.shape, [2])
+            if not self.grid[i,j] == 1:
+                break
+        g2m, _ = self.grid2meter()
+        spawn = np.array([
+                    -self.max_half_length + i*g2m,
+                    -self.max_half_length + j*g2m,
+                    0.2
+                ])
+        return spawn
+    
+    def sample_spawn_orientation(self):
+        return np.random.uniform(-1,1, (4,))
+
+
     def reset_obstacle_positions(self):
         """
             reset the obstacle positions based on some probability distribution

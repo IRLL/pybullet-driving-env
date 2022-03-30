@@ -112,36 +112,6 @@ class DrivingGrid(SimpleDrivingEnv):
     def grid2meter(self):
         return (2*self.max_half_length)/(self.grid.shape[0]), (2*self.max_half_length)/(self.grid.shape[1])
 
-    def reset(self, goal, base_position, base_orientation, agent="alice"):
-        self.steps = 0
-        p.resetSimulation(self.client)
-        p.setGravity(0, 0, -10)
-
-        # Reload the plane and car
-        Plane(self.client)
-        self.car = Car(self.client, base_position, base_orientation)
-
-        self.goal = deepcopy(goal)
-        self.done = False
-
-        # Visual element of the goal
-        Goal(self.client, self.goal)
-
-        # Get observation to return
-        car_ob = self.car.get_observation()
-
-        self.prev_dist_to_goal = math.sqrt(((car_ob[0] - self.goal[0]) ** 2 +
-                                           (car_ob[1] - self.goal[1]) ** 2))
-
-        if agent == "alice":
-            #If agent is alice, reset obstacle positions (since we want bob to run through same obstacles as alice)
-            self.reset_obstacle_positions()
-
-        self.draw_obstacles()
-        gridmap = self.get_observation_image(75, agent)
-        # print("Reset time: ", time.time() - tic)
-        return {'segmentation':gridmap, 'car_qpos':np.array(car_ob, dtype=np.float32)}
-
     def reset_obstacle_positions(self):
         """
             reset the obstacle positions based on some probability distribution

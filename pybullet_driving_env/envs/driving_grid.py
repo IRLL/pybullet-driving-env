@@ -100,10 +100,13 @@ class DrivingGrid(SimpleDrivingEnv):
                                         -self.max_half_length + j*g2m,
                                         0.1
                                     ]
+                    visBoxId = p.createVisualShape(p.GEOM_BOX,
+                                halfExtents=[g2m/2, g2m/2, box_half_height], rgbaColor=[0.62, 0.26, 0.67, 1])
                     colBoxId = p.createCollisionShape(p.GEOM_BOX,
                                 halfExtents=[g2m/2, g2m/2, box_half_height])
                     p.createMultiBody(baseMass=self.obstacle_mass,
                         baseCollisionShapeIndex=colBoxId,
+                        baseVisualShapeIndex=visBoxId,
                         basePosition=pos_obstacles)
     
     def grid2meter(self):

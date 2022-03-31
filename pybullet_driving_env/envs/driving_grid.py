@@ -2,7 +2,7 @@ import gym
 import numpy as np
 import math
 import pybullet as p
-from pybullet_driving_env.resources.car import Car
+from pybullet_driving_env.resources.carreverse import CarReverse
 from pybullet_driving_env.resources.plane import Plane
 from pybullet_driving_env.resources.goal import Goal
 from pybullet_driving_env.envs.simple_driving_env import SimpleDrivingEnv
@@ -16,8 +16,8 @@ class DrivingGrid(SimpleDrivingEnv):
 
     def __init__(self):
         self.action_space = gym.spaces.box.Box(
-            low=np.array([0, -.6], dtype=np.float32),
-            high=np.array([1, .6], dtype=np.float32))
+            low=np.array([0, -.6, 0], dtype=np.float32),
+            high=np.array([1, .6, 1], dtype=np.float32))
 
         """
             obs_space -- observation space for the environment
@@ -36,12 +36,12 @@ class DrivingGrid(SimpleDrivingEnv):
                     high = np.ones((75,75,3)),
             )
         }
-        self.grid = np.zeros([11,11])
+        self.grid = np.zeros([21,21])
         self.observation_space = gym.spaces.dict.Dict(obs_space)
         self.np_random, _ = gym.utils.seeding.np_random()
         
         # use this if not rendering
-        self.client = p.connect(p.DIRECT)
+        self.client = p.connect(p.GUI)
 
         #use this if rendering
         # self.client = p.connect(p.GUI)
@@ -128,6 +128,8 @@ class DrivingGrid(SimpleDrivingEnv):
     def sample_spawn_orientation(self):
         return np.random.uniform(-1,1, (4,))
 
+    def reset_car(self, client, base_position, base_orientation):
+        return CarReverse(client, base_position, base_orientation)
 
     def reset_obstacle_positions(self):
         """
@@ -138,12 +140,12 @@ class DrivingGrid(SimpleDrivingEnv):
         self.grid[0,:] = 1
         self.grid[:,0] = 1
         self.grid[:,-1] = 1
-        self.grid[5,:] = 1
-        self.grid[:,5] = 1
-        self.grid[4, 5] = 0
-        self.grid[8,5] = 0
-        self.grid[5,4] = 0
-        self.grid[5,8] = 0
+        self.grid[10,:] = 1
+        self.grid[:,10] = 1
+        self.grid[6:9, 10] = 0
+        self.grid[13:16,10] = 0
+        self.grid[10,6:9] = 0
+        self.grid[10,13:16] = 0
 
     def close(self):
         p.disconnect(self.client)

@@ -2,6 +2,7 @@ import pybullet_driving_env
 from pybullet_driving_env.envs.driving_grid import DrivingGrid
 import numpy as np
 import gym
+import time
 
 # env = gym.make('SimpleDriving-v0')
 env = gym.make('DrivingGrid-v0')
@@ -11,7 +12,7 @@ print(env.action_space)
 
 for episode in range(5):
     for i in range(4):
-
+        tic = time.time()
         # set spawn position and orientation
         spawn_position = np.random.uniform(-10,10, (3,))
         spawn_orientation = np.random.uniform(-1,1, (4,))
@@ -35,4 +36,5 @@ for episode in range(5):
         while not done:
             action = env.action_space.sample()
             obs, reward, done, _ = env.step(action, 1.5, agent="bob")
+        print("Time take for 1 alice:", time.time()- tic)
         

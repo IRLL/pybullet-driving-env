@@ -176,6 +176,9 @@ class SimpleDrivingEnv(gym.Env):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
         return [seed]
 
+    def reset_car(self, client, base_position, base_orientation):
+        return Car(client, base_position, base_orientation)
+
     def reset(self, goal, base_position, base_orientation, agent="alice"):
         self.steps = 0
         p.resetSimulation(self.client)
@@ -183,7 +186,8 @@ class SimpleDrivingEnv(gym.Env):
 
         # Reload the plane and car
         Plane(self.client)
-        self.car = Car(self.client, base_position, base_orientation)
+        self.car = self.reset_car(self.client, base_position, base_orientation)
+        # self.car = Car(self.client, base_position, base_orientation)
 
         self.goal = deepcopy(goal)
         self.done = False
